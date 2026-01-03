@@ -8,7 +8,4 @@ router.post("/login",loginController);
 router.post("/logout",logoutController);
 
 
-
-
-
 export default router;
