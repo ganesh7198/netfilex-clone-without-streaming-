@@ -1,6 +1,7 @@
 import express from 'express';
 import authrouter from './Routes/auth.route.js';
 import movierouter from './Routes/movie.route.js';
+import tvrouter from './Routes/tv.route.js'
 import dotenv from 'dotenv';
 import  db  from './DB/db.js';
 import cookieParser from 'cookie-parser';
@@ -13,6 +14,7 @@ app.use(cookieParser());
 
 app.use("/api/v1/auth",authrouter);
 app.use("/api/v1/movie",movierouter);
+app.use("api/v1/tvseries",tvrouter);
 
 const port=process.env.PORT
 app.listen(port,()=>{
