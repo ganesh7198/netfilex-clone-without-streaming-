@@ -7,6 +7,8 @@ export const generateTokenAndSetCookie = (userId, res) => {
     { expiresIn: "15d" }
   );
 
+ 
+
   res.cookie("jwt-netflix", token, {
     maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
     httpOnly: true,
@@ -14,5 +16,8 @@ export const generateTokenAndSetCookie = (userId, res) => {
     secure: process.env.NODE_ENV === "production",
   });
 
+
+
+
   return token;
-};
+}

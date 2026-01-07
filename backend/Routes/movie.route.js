@@ -7,7 +7,7 @@ import { protectedRoute } from '../Middleware/protectroute.js';
 const router=express.Router();
 
 
-router.get('/trending',protectedRoute,getTrendingMovie);
+router.get('/trending',getTrendingMovie);
 router.get('/:id/tralerilers',protectedRoute,getTralerilers);
 router.get('/:id/details',protectedRoute,getMovieDetails);
 router.get('/:id/similar',protectedRoute,getSimilerMovie);

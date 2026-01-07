@@ -1,7 +1,27 @@
+import mongoose from "mongoose";
 import User from "../Models/user.model.js";
 import { fetchFromTMDB } from "../Services/tmdb.services.js";
 
-// 🔍 Search Person
+/**
+ * 🔍 COMMON FUNCTION TO SAVE SEARCH HISTORY
+ */
+const saveSearchHistory = async ({ userId, item }) => {
+  await User.findByIdAndUpdate(userId, {
+    $addToSet: {
+      searchHistory: {
+        tmdbId: item.tmdbId,
+        title: item.title,
+        image: item.image,
+        type: item.type,
+        searchedAt: new Date()
+      }
+    }
+  });
+};
+
+/**
+ * 🔍 SEARCH PERSON
+ */
 export const getSearchedPerson = async (req, res) => {
   try {
     const { query } = req.params;
@@ -15,32 +35,32 @@ export const getSearchedPerson = async (req, res) => {
       `https://api.themoviedb.org/3/search/person?query=${query}&include_adult=false&language=en-US&page=1`
     );
 
-    if (!response?.results || response.results.length === 0) {
+    if (!response?.results?.length) {
       return res.status(404).json({ message: "No person found" });
     }
 
-    // ✅ Save search history
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: {
-        searchHistory: {
-          query,
-          type: "person",
-          searchedAt: new Date(),
-        },
-      },
+    const person = response.results[0];
+
+    await saveSearchHistory({
+      userId,
+      item: {
+        tmdbId: person.id,
+        title: person.name,
+        image: person.profile_path,
+        type: "person"
+      }
     });
 
-    res.status(200).json({
-      success: true,
-      results: response.results,
-    });
+    res.status(200).json({ success: true, results: response.results });
   } catch (error) {
     console.error("Error in search person API:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// 🎬 Search Movie
+/**
+ * 🎬 SEARCH MOVIE
+ */
 export const getSearchedMovie = async (req, res) => {
   try {
     const { query } = req.params;
@@ -54,31 +74,32 @@ export const getSearchedMovie = async (req, res) => {
       `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`
     );
 
-    if (!response?.results || response.results.length === 0) {
+    if (!response?.results?.length) {
       return res.status(404).json({ message: "No movie found" });
     }
 
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: {
-        searchHistory: {
-          query,
-          type: "movie",
-          searchedAt: new Date(),
-        },
-      },
+    const movie = response.results[0];
+
+    await saveSearchHistory({
+      userId,
+      item: {
+        tmdbId: movie.id,
+        title: movie.title,
+        image: movie.poster_path,
+        type: "movie"
+      }
     });
 
-    res.status(200).json({
-      success: true,
-      results: response.results,
-    });
+    res.status(200).json({ success: true, results: response.results });
   } catch (error) {
     console.error("Error in search movie API:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// 📺 Search TV Series
+/**
+ * 📺 SEARCH TV SERIES
+ */
 export const getSearchedTvSeries = async (req, res) => {
   try {
     const { query } = req.params;
@@ -92,36 +113,35 @@ export const getSearchedTvSeries = async (req, res) => {
       `https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US&page=1`
     );
 
-    if (!response?.results || response.results.length === 0) {
+    if (!response?.results?.length) {
       return res.status(404).json({ message: "No TV series found" });
     }
 
-    await User.findByIdAndUpdate(userId, {
-      $addToSet: {
-        searchHistory: {
-          query,
-          type: "tv",
-          searchedAt: new Date(),
-        },
-      },
+    const tv = response.results[0];
+
+    await saveSearchHistory({
+      userId,
+      item: {
+        tmdbId: tv.id,
+        title: tv.name,
+        image: tv.poster_path,
+        type: "tv"
+      }
     });
 
-    res.status(200).json({
-      success: true,
-      results: response.results,
-    });
+    res.status(200).json({ success: true, results: response.results });
   } catch (error) {
-    console.error("Error in search TV series API:", error.message);
+    console.error("Error in search TV API:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-
+/**
+ * 📜 GET SEARCH HISTORY
+ */
 export const getSearchHistory = async (req, res) => {
   try {
-    const userId = req.user._id;
-
-    const user = await User.findById(userId).select("searchHistory");
+    const user = await User.findById(req.user._id).select("searchHistory");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -133,3 +153,40 @@ export const getSearchHistory = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+/**
+ * ❌ DELETE SEARCH HISTORY ITEM (BY _id)
+ */
+export const deleteSearchHistoryItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+
+    if (!id) {
+      return res.status(400).json({ message: "tmdbId is required" });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: {
+          searchHistory: { tmdbId: Number(id) }
+        }
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Search history item deleted successfully",
+      searchHistory: user.searchHistory
+    });
+  } catch (error) {
+    console.error("Error deleting search history by tmdbId:", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
