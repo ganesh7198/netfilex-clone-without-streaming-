@@ -23,7 +23,7 @@ function TrendingMovieCompont() {
   if (!movie) return null;
 
   return (
-    <section className="relative h-[100vh] w-full">
+    <section className=" mt--10px relative h-[100vh] w-full">
       {/* Background Image */}
       <img
         src={`${IMAGE_BASE_URL}${movie.backdrop_path || movie.poster_path}`}

@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
+
 import Homepage from "./Pages/Homepage";
 import Loginpage from "./Pages/Loginpage";
 import Signuppage from "./Pages/Singuppage";
 import Innerhomepage from "./Pages/Innerhomepage";
+import ProtectedLayout from "../src/Comopontes/ProtectedLayout";
+
 import "./App.css";
+
 function App() {
-  const [isLogin, setIsLogin] = useState(null); // null = checking
+  const [isLogin, setIsLogin] = useState(null);
 
   useEffect(() => {
     async function checkAuth() {
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/auth/getme",
-          { withCredentials: true }
-        );
-
-        if (response.data.success) {
-          setIsLogin(true);
-        } else {
-          setIsLogin(false);
-        }
-      } catch (error) {
-        console.log(error);
+        const res = await axios.get("http://localhost:5000/api/v1/auth/getme", {
+          withCredentials: true,
+        });
+        setIsLogin(res.data.success);
+      } catch {
         setIsLogin(false);
       }
     }
@@ -31,10 +28,9 @@ function App() {
     checkAuth();
   }, []);
 
-
   return (
     <Routes>
-      {/* Public Routes: redirect logged-in users */}
+      {/* Public Routes */}
       <Route
         path="/"
         element={isLogin ? <Navigate to="/home" replace /> : <Homepage />}
@@ -48,11 +44,11 @@ function App() {
         element={isLogin ? <Navigate to="/home" replace /> : <Signuppage />}
       />
 
-      {/* Protected Route */}
-      <Route
-        path="/home"
-        element={isLogin ? <Innerhomepage /> : <Navigate to="/login" replace />}
-      />
+      {/* Protected Layout */}
+      <Route element={<ProtectedLayout isLogin={isLogin} />}>
+        <Route path="/home" element={<Innerhomepage />} />
+        {/* <Route path="/tv" element={<Tv />} /> */}
+      </Route>
     </Routes>
   );
 }
