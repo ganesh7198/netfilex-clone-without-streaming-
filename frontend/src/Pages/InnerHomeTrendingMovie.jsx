@@ -5,7 +5,7 @@ import { FaFire, FaStar, FaPlay, FaInfoCircle } from "react-icons/fa";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/";
 
-function InnerHomeTrendingMovie() {
+function InnerHomeTrendingMovie({setmovieid}) {
   const [movie, setMovie] = useState(null);
   const [error, setError] = useState("");
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -14,10 +14,12 @@ function InnerHomeTrendingMovie() {
     async function fetchMovie() {
       const result = await TrendingMovieServices();
       if (result?.error) setError(result.error);
-      else setMovie(result);
+      else{ 
+        setmovieid(result.id);
+        setMovie(result);}
     }
     fetchMovie();
-  }, []);
+},[setmovieid]);
 
   if (error) {
     return (
@@ -152,10 +154,7 @@ function InnerHomeTrendingMovie() {
               <span>Watch Trailer</span>
             </button>
 
-            <button className="group px-8 py-3 bg-gray-800/70 hover:bg-gray-700/70 text-white font-semibold rounded-lg backdrop-blur-sm transition-all duration-300 border border-gray-600 hover:border-gray-500 flex items-center gap-3 hover:scale-105">
-              <FaInfoCircle />
-              <span>More Info</span>
-            </button>
+          
           </div>
 
           {/* Genres (if available) */}

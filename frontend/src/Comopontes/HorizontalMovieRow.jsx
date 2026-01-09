@@ -5,7 +5,7 @@ import { FiChevronLeft, FiChevronRight, FiStar } from "react-icons/fi";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-function HorizontalMovieRow() {
+function HorizontalMovieRow({movieid}) {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -14,14 +14,7 @@ function HorizontalMovieRow() {
   useEffect(() => {
     async function fetchSimilarMovies() {
       try {
-        const trending = await TrendingMovieServices();
-
-        if (!trending?.id) {
-          setError("Trending movie not found");
-          return;
-        }
-
-        const response = await SimilarMovieSevices(trending.id);
+      const response = await SimilarMovieSevices(movieid);
 
         if (response?.error) {
           setError(response.error);
@@ -30,6 +23,7 @@ function HorizontalMovieRow() {
 
         setMovies(response.results || []);
       } catch (err) {
+        console.log(err)
         setError("Failed to load movies");
       } finally {
         setLoading(false);
@@ -37,19 +31,9 @@ function HorizontalMovieRow() {
     }
 
     fetchSimilarMovies();
-  }, []);
+  }, [movieid]);
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
-    }
-  };
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
-    }
-  };
 
   if (loading) {
     return (
