@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 function Trailers({ movieid }) {
@@ -15,11 +14,10 @@ function Trailers({ movieid }) {
         setLoading(true);
 
         const response = await axios.get(
-          `http://localhost:5000/api/v1/movie/${movieid}/trailers`
+          `http://localhost:5000/api/v1/movie/${movieid}/tralerilers`,{withCredentials:true}
         );
 
-        const trailers =
-          response.data?.trailers || response.data?.data?.trailers || [];
+        const trailers = response.data?.trailers?.results || [];
 
         const selectedTrailer =
           trailers.find((t) => t.type === "Trailer" && t.official) ||
@@ -28,7 +26,6 @@ function Trailers({ movieid }) {
 
         setTrailerData(selectedTrailer || null);
       } catch (err) {
-        console.error(err);
         setError("Failed to load trailer");
       } finally {
         setLoading(false);
@@ -43,18 +40,19 @@ function Trailers({ movieid }) {
   if (!trailerData) return <p className="text-center">No trailer available</p>;
 
   return (
-    <div className="my-8">
-      <h3 className="text-xl font-semibold mb-4">{trailerData.name}</h3>
-
-      <div className="aspect-video w-full">
-        <iframe
-          className="w-full h-full rounded-lg"
-          src={`https://www.youtube.com/embed/${trailerData.key}`}
-          title={trailerData.name}
-          allowFullScreen
-        />
+    <>
+  
+      <div className=" p-26 bg-gradient-to-b from-gray-950 to-black my-8 flex justify-center">
+        <div className="aspect-video w-full max-w-2xl">
+          <iframe
+            className="w-full h-full rounded-lg"
+            src={`https://www.youtube.com/embed/${trailerData.key}`}
+            title={trailerData.name}
+            allowFullScreen
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

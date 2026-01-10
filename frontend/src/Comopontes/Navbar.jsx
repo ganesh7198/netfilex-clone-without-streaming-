@@ -1,6 +1,7 @@
 // Components/Navbar.jsx
 import React, { useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -16,8 +17,10 @@ function Navbar() {
 
           {/* Nav Links */}
           <div className="hidden md:flex items-center gap-6 text-gray-300 text-sm font-medium">
-            <button className="hover:text-white transition">Movies</button>
-            <button className="hover:text-white transition">TV Series</button>
+            <Link className="hover:text-white transition" to={"/home"}>
+              movies
+            </Link>
+            <Link to={"/tv"} className="hover:text-white transition">tv series</Link>
           </div>
         </div>
 

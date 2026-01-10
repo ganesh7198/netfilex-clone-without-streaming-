@@ -9,6 +9,7 @@ import Innerhomepage from "./Pages/Innerhomepage";
 import ProtectedLayout from "../src/Comopontes/ProtectedLayout";
 
 import "./App.css";
+import Tv from "./Pages/Tv";
 
 function App() {
   const [isLogin, setIsLogin] = useState(null);
@@ -47,7 +48,7 @@ function App() {
       {/* Protected Layout */}
       <Route element={<ProtectedLayout isLogin={isLogin} />}>
         <Route path="/home" element={<Innerhomepage />} />
-        {/* <Route path="/tv" element={<Tv />} /> */}
+       <Route path="/tv" element={<Tv/>} />
       </Route>
     </Routes>
   );

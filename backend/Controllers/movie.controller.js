@@ -37,7 +37,7 @@ export const getTralerilers=async(req,res)=>{
 			if(response.status==404){
 			return res.status(404).json({success:false,message:"no movie found"})
 		}
-		res.status(200).json({success:true, trailers:response.results});
+		res.status(200).json({success:true, trailers:response});
 
 	}catch(error){
         console.log("error in the movie controller js",error.message)
