@@ -1,22 +1,28 @@
 import React, { useState } from "react";
-import TrendingTvSeriesComponent from '../Comopontes/TrendingTvseries';
+import TrendingTvSeriesComponent from "../Comopontes/TrendingTvseries";
 import TvSeriesDetails from "../Comopontes/TvSeriesDetails";
+import TvSeriesTrailers from "../Comopontes/TvSeriesTraliers";
 
 function Tv() {
   const [tvid, setTvid] = useState(null);
 
   return (
     <>
-      {/* Trending TV Hero */}
       <TrendingTvSeriesComponent settvid={setTvid} />
 
-      {/* Details Section */}
-      {!tvid ? (
+      {tvid ? (
+        <TvSeriesDetails tvid={tvid} />
+      ) : (
         <p className="text-black p-8 text-center">
           Loading TV series details...
         </p>
+      )}
+      {tvid ? (
+        <TvSeriesTrailers tvid={tvid} />
       ) : (
-        <TvSeriesDetails tvid={tvid} />
+        <p className="text-black p-8 text-center">
+          Loading TV series details...
+        </p>
       )}
     </>
   );
