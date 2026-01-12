@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TrendingTvSeriesComponent from "../Comopontes/TrendingTvseries";
 import TvSeriesDetails from "../Comopontes/TvSeriesDetails";
 import TvSeriesTrailers from "../Comopontes/TvSeriesTraliers";
+import TvSeriesSimilar from "../Comopontes/TvSeriesSimilar";
 
 function Tv() {
   const [tvid, setTvid] = useState(null);
@@ -19,6 +20,13 @@ function Tv() {
       )}
       {tvid ? (
         <TvSeriesTrailers tvid={tvid} />
+      ) : (
+        <p className="text-black p-8 text-center">
+          Loading TV series details...
+        </p>
+      )}
+      {tvid ? (
+        <TvSeriesSimilar tvid={tvid} />
       ) : (
         <p className="text-black p-8 text-center">
           Loading TV series details...
