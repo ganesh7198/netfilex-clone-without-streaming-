@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import useSearch from "../Customhooks/useSearch";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
+  const {search,handlechange,keydown}=useSearch();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-gray-800">
@@ -34,6 +36,10 @@ function Navbar() {
             />
             <input
               type="text"
+             value={search}
+             onChange={handlechange}
+             onKeyDown={keydown}
+          
               placeholder="Search movies, shows..."
               className="bg-[#020617] pl-10 pr-4 py-2 rounded-lg border border-gray-700 text-sm text-white focus:outline-none focus:border-red-500 w-64"
             />

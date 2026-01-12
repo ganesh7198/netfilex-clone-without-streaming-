@@ -8,8 +8,10 @@ import Signuppage from "./Pages/Singuppage";
 import Innerhomepage from "./Pages/Innerhomepage";
 import ProtectedLayout from "../src/Comopontes/ProtectedLayout";
 
+
 import "./App.css";
 import Tv from "./Pages/Tv";
+import Searchpage from "./Pages/Searchpage";
 
 function App() {
   const [isLogin, setIsLogin] = useState(null);
@@ -45,11 +47,13 @@ function App() {
         element={isLogin ? <Navigate to="/home" replace /> : <Signuppage />}
       />
 
-      {/* Protected Layout */}
-      <Route element={<ProtectedLayout isLogin={isLogin} />}>
-        <Route path="/home" element={<Innerhomepage />} />
-       <Route path="/tv" element={<Tv/>} />
-      </Route>
+        {/* Protected Layout */}
+        <Route element={<ProtectedLayout isLogin={isLogin} />}>
+          <Route path="/home" element={<Innerhomepage />} />
+          <Route path="/tv" element={<Tv />} />
+          <Route path="/search" element={Searchpage}></Route>
+        </Route>
+  
     </Routes>
   );
 }
