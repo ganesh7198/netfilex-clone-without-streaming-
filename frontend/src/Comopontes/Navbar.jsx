@@ -2,11 +2,13 @@
 import React, { useState } from "react";
 import { Search, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
-import useSearch from "../Customhooks/useSearch";
+import { useContext } from "react";
+import SearchContext from "../Context/SearchContext";
+
 
 function Navbar() {
   const [open, setOpen] = useState(false);
-  const {search,handlechange,keydown}=useSearch();
+ const {search,handlechange,keydown}= useContext(SearchContext);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#020617]/80 backdrop-blur-md border-b border-gray-800">

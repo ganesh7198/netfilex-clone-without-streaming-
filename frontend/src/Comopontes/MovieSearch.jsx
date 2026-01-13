@@ -3,7 +3,7 @@ import axios from "axios";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-function TvSearch({ search }) {
+function MovieSearch({ search }) {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,40 +20,40 @@ function TvSearch({ search }) {
 
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/v1/search/tvseries/${search}`,
+          `http://localhost:5000/api/v1/search/movie/${search}`,
           { withCredentials: true }
         );
         setResults(data?.results || []);
       } catch (err) {
         console.error(err);
-        setError("Failed to fetch TV series.");
+        setError("Failed to fetch movies.");
       } finally {
         setLoading(false);
       }
-    }, 500);
+    }, 500); // debounce
 
     return () => clearTimeout(delay);
   }, [search]);
 
   if (loading)
-    return <p className="text-center mt-10 text-gray-400"></p>;
+    return <p className="text-center mt-10 text-gray-400">Loading...</p>;
   if (error) return <p className="text-center mt-10 text-red-500">{error}</p>;
   if (!results.length)
-    return <p className="text-center mt-10 text-gray-500"></p>;
+    return <p className="text-center mt-10 text-gray-500">No results found.</p>;
 
   return (
     <div className="p-8 bg-gray-900 min-h-screen">
-      <h2 className="text-4xl text-red-500 mb-8 font-bold">TV Series</h2>
+      <h2 className="text-4xl text-red-500 mb-8 font-bold">Movies</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {results.map((tv) => (
+        {results.map((movie) => (
           <div
-            key={tv.id}
+            key={movie.id}
             className="bg-gray-800 text-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transition-transform duration-200"
           >
-            {tv.poster_path ? (
+            {movie.poster_path ? (
               <img
-                src={`${IMAGE_BASE}${tv.poster_path}`}
-                alt={tv.name}
+                src={`${IMAGE_BASE}${movie.poster_path}`}
+                alt={movie.title}
                 loading="lazy"
                 className="w-full h-64 object-cover"
               />
@@ -63,12 +63,12 @@ function TvSearch({ search }) {
               </div>
             )}
             <div className="p-4">
-              <h3 className="text-lg font-semibold">{tv.name}</h3>
+              <h3 className="text-lg font-semibold">{movie.title}</h3>
               <p className="text-gray-300 text-sm mt-2">
-                {tv.overview?.slice(0, 100)}...
+                {movie.overview?.slice(0, 100)}...
               </p>
               <p className="text-gray-400 text-xs mt-2">
-                ⭐ {tv.vote_average} | {tv.first_air_date}
+                ⭐ {movie.vote_average} | {movie.release_date}
               </p>
             </div>
           </div>
@@ -78,4 +78,4 @@ function TvSearch({ search }) {
   );
 }
 
-export default TvSearch;
+export default MovieSearch;

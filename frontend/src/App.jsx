@@ -7,11 +7,10 @@ import Loginpage from "./Pages/Loginpage";
 import Signuppage from "./Pages/Singuppage";
 import Innerhomepage from "./Pages/Innerhomepage";
 import ProtectedLayout from "../src/Comopontes/ProtectedLayout";
-
-
+import Searchpage from "./Pages/Searchpage";
 import "./App.css";
 import Tv from "./Pages/Tv";
-import Searchpage from "./Pages/Searchpage";
+import { SearchProvider } from "./Context/SearchContext";
 
 function App() {
   const [isLogin, setIsLogin] = useState(null);
@@ -32,29 +31,30 @@ function App() {
   }, []);
 
   return (
-    <Routes>
-      {/* Public Routes */}
-      <Route
-        path="/"
-        element={isLogin ? <Navigate to="/home" replace /> : <Homepage />}
-      />
-      <Route
-        path="/login"
-        element={isLogin ? <Navigate to="/home" replace /> : <Loginpage />}
-      />
-      <Route
-        path="/signup"
-        element={isLogin ? <Navigate to="/home" replace /> : <Signuppage />}
-      />
+    <SearchProvider>
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={isLogin ? <Navigate to="/home" replace /> : <Homepage />}
+        />
+        <Route
+          path="/login"
+          element={isLogin ? <Navigate to="/home" replace /> : <Loginpage />}
+        />
+        <Route
+          path="/signup"
+          element={isLogin ? <Navigate to="/home" replace /> : <Signuppage />}
+        />
 
         {/* Protected Layout */}
         <Route element={<ProtectedLayout isLogin={isLogin} />}>
           <Route path="/home" element={<Innerhomepage />} />
           <Route path="/tv" element={<Tv />} />
-          <Route path="/search" element={Searchpage}></Route>
+          <Route path="/search" element={<Searchpage></Searchpage>}></Route>
         </Route>
-  
-    </Routes>
+      </Routes>
+    </SearchProvider>
   );
 }
 
