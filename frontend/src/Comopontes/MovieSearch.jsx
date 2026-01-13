@@ -26,7 +26,7 @@ function MovieSearch({ search }) {
         setResults(data?.results || []);
       } catch (err) {
         console.error(err);
-        setError("Failed to fetch movies.");
+        setError();
       } finally {
         setLoading(false);
       }

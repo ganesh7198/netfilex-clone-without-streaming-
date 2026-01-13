@@ -26,7 +26,7 @@ function TvSearch({ search }) {
         setResults(data?.results || []);
       } catch (err) {
         console.error(err);
-        setError("Failed to fetch TV series.");
+        setError();
       } finally {
         setLoading(false);
       }
