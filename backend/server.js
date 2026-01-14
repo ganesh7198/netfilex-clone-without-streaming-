@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import db from "./DB/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { protectedRoute } from "./middleware/protectroute.js";
+import { protectedRoute } from "./Middleware/protectRoute.js";
 import path from "path";
 
 dotenv.config();
@@ -29,7 +29,7 @@ app.use(cookieParser());
 // api routes
 app.use("/api/v1/auth", authrouter);
 app.use("/api/v1/movie", movierouter);
-app.use("/api/v1/tvseries", tvrouter);
+app.use("/api/v1/tvseries", protectedRoute,tvrouter);
 app.use("/api/v1/search", protectedRoute, searchroute);
 
 // optional dev route
