@@ -1,6 +1,6 @@
 // Components/HeroTrending.jsx
 import React, { useEffect, useState } from "react";
-import TrendingMovieServices from "../services/TrendingMovieServices";
+import TrendingMovieServices from "../Services/TrendingMovieServices";
 import { FaFire, FaStar, FaPlay, FaInfoCircle } from "react-icons/fa";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/";
