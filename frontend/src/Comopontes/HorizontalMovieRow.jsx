@@ -46,7 +46,7 @@ function HorizontalMovieRow({movieid}) {
   }
 
   return (
-    <section className="relative px-6 py-8 bg-gradient-to-b from-gray-950 to-black">
+    <section className="relative px-6 py-8 bg-gradient-to-from-gray-950 to-black">
       {/* Header */}
       <div className="flex items-center justify-between mb-6 px-2">
         <div>
@@ -73,12 +73,12 @@ function HorizontalMovieRow({movieid}) {
         {movies.map((movie) => (
           <div
             key={movie.id}
-            className="group min-w-[180px] flex-shrink-0 transition-all duration-300"
+            className="group min-w-45 shrink-0 transition-all duration-300"
           >
             {/* Movie Card */}
             <div className="relative overflow-hidden rounded-xl bg-gray-900 border border-gray-800 group-hover:border-red-500/50 transition-all duration-300">
               {/* Poster */}
-              <div className="relative h-[270px] overflow-hidden">
+              <div className="relative h-67.5 overflow-hidden">
                 <img
                   src={
                     movie.poster_path
@@ -91,7 +91,7 @@ function HorizontalMovieRow({movieid}) {
                 />
 
                 {/* Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <div className="absolute inset-0 bg-gradient-to-from-black via-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
                   <button className="w-full py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded transition-colors">
                     Quick View
                   </button>

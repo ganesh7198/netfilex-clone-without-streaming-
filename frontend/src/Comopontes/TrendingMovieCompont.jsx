@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TrendingMovieServices from "../services/TrendingMovieServices";
+import TrendingMovieServices from "../Services/TrendingMovieServices";
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
 
@@ -23,7 +23,7 @@ function TrendingMovieCompont() {
   if (!movie) return null;
 
   return (
-    <section className=" mt--4px relative h-[100vh] w-full">
+    <section className=" mt--4px relative h-screen w-full">
       {/* Background Image */}
       <img
         src={`${IMAGE_BASE_URL}${movie.backdrop_path || movie.poster_path}`}
@@ -33,7 +33,7 @@ function TrendingMovieCompont() {
       />
 
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-from-black/90 via-black/60 to-transparent"></div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 h-full flex items-center">
