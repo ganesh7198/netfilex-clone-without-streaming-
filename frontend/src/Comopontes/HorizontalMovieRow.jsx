@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import TrendingMovieServices from "../services/TrendingMovieServices";
 import SimilarMovieSevices from "../Services/SimilarMovieSevices";
-import { FiChevronLeft, FiChevronRight, FiStar } from "react-icons/fi";
 
 const IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
