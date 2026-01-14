@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 import db from "./DB/db.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { protectedRoute } from "./Middleware/protectRoute.js";
+import { protectedRoute } from "./Middleware/protectroute.js";
 import path from "path";
 
 dotenv.config();

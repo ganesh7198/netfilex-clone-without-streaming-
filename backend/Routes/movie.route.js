@@ -1,6 +1,7 @@
 import express from 'express';
 import { getMovieByCategory, getMovieDetails, getSimilerMovie, getTralerilers, getTrendingMovie } from '../Controllers/movie.controller.js';
-import { protectedRoute } from '../Middleware/protectRoute.js';
+import { protectedRoute } from '../Middleware/protectroute.js';
+
 
 
 
