@@ -50,9 +50,11 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(distPath));
 
   // Catch all other routes and return React index.html
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
+// Fixed for Express 5
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 }
 
 // ===== Start Server =====
